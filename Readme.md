@@ -24,7 +24,7 @@ Make sure you have the following tools installed and check the version:
 ## Clone and Build
 
 First, please create your own repository by click 'Use this template' button and make sure you create a private repository (one repository per team) in your Github account.
-![image](https://user-images.githubusercontent.com/6300305/150668401-cfa3cd5f-1762-4b51-aec5-d1b6e097a559.png)
+![image](https://user-imaggies.githubusercontent.com/6300305/150668401-cfa3cd5f-1762-4b51-aec5-d1b6e097a559.png)
 Then, please add your team member and your TA for rights of accessing your repository by selecting 'Settings' -> 'Manage access' -> 'Add people':
 ![image](https://user-images.githubusercontent.com/6300305/150668476-ebc35b05-7c94-4e23-a816-09deda6f5278.png)
 Your TA's Github account:

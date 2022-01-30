@@ -7,17 +7,14 @@ void yyerror(const char *msg);
   /* put your types here */
 }
 
-%define parse.error verbose
+%error-verbose
 %locations
 
 /* %start program */
-%start program
 
 %% 
 
   /* write your rules here */
-  program:  {printf("bruh\n");};
-
 
 %% 
 
