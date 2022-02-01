@@ -13,6 +13,8 @@ void yyerror(const char *msg);
 %locations
 
 /* %start program */
+%left FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS BEGIN_BODY END_BODY COLON INTEGER ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF ASSIGN IF THEN ENDIF ELSE WHILE BEGINLOOP ENDLOOP DO READ WRITE CONTINUE BREAK RETURN NOT EQ NEQ LT GT LTE GTE ADD L_PAREN R_PAREN COMMA SUB MULT DIV MOD
+
 %start program
 
 %% 
@@ -75,10 +77,10 @@ void yyerror(const char *msg);
             | IDENTIFIER L_SQUARE_BRACKET Expression R_SQUARE_BRACKET
 %% 
 
-int main(int argc, char **argv) {
+/*int main(int argc, char **argv) {
    yyparse();
    return 0;
-}
+}*/
 
 void yyerror(const char *msg) {
     /* implement your error handling */

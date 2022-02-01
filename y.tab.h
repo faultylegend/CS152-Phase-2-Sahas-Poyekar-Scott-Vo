@@ -44,16 +44,68 @@
 extern int yydebug;
 #endif
 
+/* Token type.  */
+#ifndef YYTOKENTYPE
+# define YYTOKENTYPE
+  enum yytokentype
+  {
+    FUNCTION = 258,
+    IDENTIFIER = 259,
+    SEMICOLON = 260,
+    BEGIN_PARAMS = 261,
+    END_PARAMS = 262,
+    BEGIN_LOCALS = 263,
+    END_LOCALS = 264,
+    BEGIN_BODY = 265,
+    END_BODY = 266,
+    COLON = 267,
+    INTEGER = 268,
+    ARRAY = 269,
+    L_SQUARE_BRACKET = 270,
+    NUMBER = 271,
+    R_SQUARE_BRACKET = 272,
+    OF = 273,
+    ASSIGN = 274,
+    IF = 275,
+    THEN = 276,
+    ENDIF = 277,
+    ELSE = 278,
+    WHILE = 279,
+    BEGINLOOP = 280,
+    ENDLOOP = 281,
+    DO = 282,
+    READ = 283,
+    WRITE = 284,
+    CONTINUE = 285,
+    BREAK = 286,
+    RETURN = 287,
+    NOT = 288,
+    EQ = 289,
+    NEQ = 290,
+    LT = 291,
+    GT = 292,
+    LTE = 293,
+    GTE = 294,
+    ADD = 295,
+    L_PAREN = 296,
+    R_PAREN = 297,
+    COMMA = 298,
+    SUB = 299,
+    MULT = 300,
+    DIV = 301,
+    MOD = 302
+  };
+#endif
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 6 "miniL.y"
+#line 8 "miniL.y"
 
   /* put your types here */
 
-#line 57 "y.tab.h"
+#line 109 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
