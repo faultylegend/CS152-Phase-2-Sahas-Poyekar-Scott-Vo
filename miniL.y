@@ -3,6 +3,8 @@
 void yyerror(const char *msg);
 %}
 
+
+
 %union{
   /* put your types here */
 }
@@ -16,9 +18,61 @@ void yyerror(const char *msg);
 %% 
 
   /* write your rules here */
-  program:  {printf("bruh\n");};
+  program: | Functions 
 
+  Functions : |Function 
+              | Function Functions
 
+  Function: FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS Declarations END_PARAMS BEGIN_LOCALS Declarations END_LOCALS BEGIN_BODY Statements END_BODY
+
+  Declarations: | Declaration SEMICOLON Declarations
+
+  Statements: Statement
+              | Statement SEMICOLON Statements
+            
+  Declaration: IDENTIFIER COLON INTEGER
+              | IDENTIFIER COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF
+  
+  Statement: variable ASSIGN Expression
+             | IF Bool_Exp THEN Statements ENDIF
+             | IF Bool_Exp THEN Statements ELSE Statements ENDIF
+             | WHILE Bool_Exp BEGINLOOP Statements ENDLOOP
+             | DO BEGINLOOP Statements ENDLOOP WHILE Bool_Exp
+             | READ variable
+             | WRITE variable
+             | CONTINUE
+             | BREAK
+             | RETURN Expression
+  
+  Bool_Exp: Nots Expression Comp Expression
+
+  Nots: | NOT Nots
+
+  Comp: EQ
+        | NEQ
+        | LT
+        | GT
+        | LTE
+        | GTE
+  
+  Expression: Mult_Expr
+              | Mult_Expr ADD Mult_Expr
+              | Mult_Expr SUB Mult_Expr
+  
+  Mult_Expr: Term
+             | Term MULT Term
+             | Term DIV Term
+             | Term MOD Term
+
+  Term: variable
+        | NUMBER
+        | L_PAREN Expression R_PAREN
+        | IDENTIFIER L_PAREN Expression R_PAREN
+
+  Expressions: Expression | Expression COMMA Expressions
+
+  variable: IDENTIFIER
+            | IDENTIFIER L_SQUARE_BRACKET Expression R_SQUARE_BRACKET
 %% 
 
 int main(int argc, char **argv) {
