@@ -2,6 +2,7 @@
    
 %{   
    /* write your C code here for definitions of variables and including headers */
+   #include "y.tab.h"
    int line = 1;
    int col = 1;
 %}
@@ -15,58 +16,58 @@ COMMENT {.}*
 
 %%
    /* specific lexer rules in regex */
-"function"	   printf("FUNCTION\n"); col += yyleng;
-"beginparams"	printf("BEGIN_PARAMS\n"); col += yyleng;
-"endparams"	   printf("END_PARAMS\n"); col += yyleng;
-"beginlocals"	printf("BEGIN_LOCALS\n"); col += yyleng;
-"endlocals"	   printf("END_LOCALS\n"); col += yyleng;
-"beginbody"	   printf("BEGIN_BODY\n"); col += yyleng;
-"endbody"	   printf("END_BODY\n"); col += yyleng;
-"integer"	   printf("INTEGER\n"); col += yyleng;
-"array"	      printf("ARRAY\n"); col += yyleng;
-"of"	         printf("OF\n"); col += yyleng;
-"if"	         printf("IF\n"); col += yyleng;
-"then"	      printf("THEN\n"); col += yyleng;
-"endif"	      printf("ENDIF\n"); col += yyleng;
-"else"	      printf("ELSE\n"); col += yyleng;
-"while"        printf("WHILE\n"); col += yyleng;
-"do"	         printf("DO\n"); col += yyleng;
-"beginloop"	   printf("BEGINLOOP\n"); col += yyleng;
-"endloop"	   printf("ENDLOOP\n"); col += yyleng;
-"continue"	   printf("CONTINUE\n"); col += yyleng;
-"break"	      printf("BREAK\n"); col += yyleng;
-"read"	      printf("READ\n"); col += yyleng;
-"write"	      printf("WRITE\n"); col += yyleng;
-"not"	         printf("NOT\n"); col += yyleng;
-"true"	      printf("TRUE\n"); col += yyleng;
-"false"	      printf("FALSE\n"); col += yyleng;
-"return"	      printf("RETURN\n"); col += yyleng;
+"function"	   {col += yyleng; return FUNCTION;}
+"beginparams"	{col += yyleng; return BEGIN_PARAMS;} 
+"endparams"	   {col += yyleng; return END_PARAMS;}
+"beginlocals"	{col += yyleng; return BEGIN_LOCALS;}
+"endlocals"	   {col += yyleng; return END_LOCALS;}
+"beginbody"	   {col += yyleng; return BEGIN_BODY;}
+"endbody"	   {col += yyleng; return END_BODY;}
+"integer"	   {col += yyleng; return INTEGER;}
+"array"	      {col += yyleng; return ARRAY;}
+"of"	         {col += yyleng; return OF;}
+"if"	         {col += yyleng; return IF;}
+"then"	      {col += yyleng; return THEN;}
+"endif"	      {col += yyleng; return ENDIF;}
+"else"	      {col += yyleng; return ELSE;}
+"while"        {col += yyleng; return WHILE;}
+"do"	         {col += yyleng; return DO;}
+"beginloop"	   {col += yyleng; return BEGINLOOP;}
+"endloop"	   {col += yyleng; return ENDLOOP;}
+"continue"	   {col += yyleng; return CONTINUE;}
+"break"	      {col += yyleng; return BREAK;}
+"read"	      {col += yyleng; return READ;}
+"write"	      {col += yyleng; return WRITE;} 
+"not"	         {col += yyleng; return NOT;}
+"true"	      {col += yyleng; return TRUE;}
+"false"	      {col += yyleng; return FALSE;} 
+"return"	      {col += yyleng; return RETURN;} 
 
 
-"-"	printf("SUB\n"); col += yyleng;
-"+"	printf("ADD\n"); col += yyleng;
-"*"	printf("MULT\n"); col += yyleng;
-"/"	printf("DIV\n"); col += yyleng;
-"%"	printf("MOD\n"); col += yyleng;
+"-"	{col += yyleng; return SUB;} 
+"+"	{col += yyleng; return ADD;} 
+"*"	{col += yyleng; return MULT;}
+"/"	{col += yyleng; return DIV;}
+"%"	{col += yyleng; return MOD;}
 "##".*  ;
 
 
-"=="	printf("EQ\n"); col += yyleng;
-"<>"	printf("NEQ\n"); col += yyleng;
-"<"	printf("LT\n"); col += yyleng;
-">"	printf("GT\n"); col += yyleng;
-"<="	printf("LTE\n"); col += yyleng;
-">="	printf("GTE\n"); col += yyleng;
+"=="	{col += yyleng; return EQ;}
+"<>"	{col += yyleng; return NEQ;}
+"<"	{col += yyleng; return LT;}
+">"	{col += yyleng; return GT;} 
+"<="	{col += yyleng; return LTE;} 
+">="	{col += yyleng; return GTE;} 
 
 
-";"	printf("SEMICOLON\n"); col += yyleng;
-":"	printf("COLON\n"); col += yyleng;
-","	printf("COMMA\n"); col += yyleng;
-"("	printf("L_PAREN\n"); col += yyleng;
-")"	printf("R_PAREN\n"); col += yyleng;
-"["	printf("L_SQUARE_BRACKET\n"); col += yyleng;
-"]"	printf("R_SQUARE_BRACKET\n"); col += yyleng;
-":="	printf("ASSIGN\n"); col += yyleng;
+";"	{col += yyleng; return SEMICOLON;} 
+":"	{col += yyleng; return COLON;}
+","	{col += yyleng; return COMMA;} 
+"("	{col += yyleng; return L_PAREN;} 
+")"	{col += yyleng; return R_PAREN;} 
+"["	{col += yyleng; return L_SQUARE_BRACKET;} 
+"]"	{col += yyleng; return R_SQUARE_BRACKET;} 
+":="	{col += yyleng; return ASSIGN;} 
 
 ({DIGIT}|{UNDER}){IDENTIFIER} {
                                  printf("\nERROR at line %d, column %d: identifier \"%s\" must begin with a letter\n", line, col, yytext);
@@ -83,8 +84,8 @@ COMMENT {.}*
                         exit(1);
                      }
 
-{IDENTIFIER} printf("IDENT %s\n", yytext); col += yyleng;
-{DIGIT}+    printf("NUMBER %s\n", yytext); col += yyleng;
+{IDENTIFIER} {col += yyleng; return IDENT;} 
+{DIGIT}+     {col += yyleng; return NUMBER;} 
 
 
 " "   col++;

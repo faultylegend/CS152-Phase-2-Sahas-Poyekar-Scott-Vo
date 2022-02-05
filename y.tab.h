@@ -93,7 +93,10 @@ extern int yydebug;
     SUB = 299,
     MULT = 300,
     DIV = 301,
-    MOD = 302
+    MOD = 302,
+    TRUE = 303,
+    FALSE = 304,
+    IDENT = 305
   };
 #endif
 
@@ -101,11 +104,11 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 8 "miniL.y"
+#line 14 "miniL.y"
 
   /* put your types here */
 
-#line 109 "y.tab.h"
+#line 112 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -1,6 +1,12 @@
     /* cs152-miniL phase2 */
 %{
+#include <stdio.h>
+#include <stdlib.h>  
 void yyerror(const char *msg);
+FILE* yyin;
+
+int yylex();
+void yyerrror(const char *s);
 %}
 
 
@@ -13,17 +19,16 @@ void yyerror(const char *msg);
 %locations
 
 /* %start program */
-%left FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS BEGIN_BODY END_BODY COLON INTEGER ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF ASSIGN IF THEN ENDIF ELSE WHILE BEGINLOOP ENDLOOP DO READ WRITE CONTINUE BREAK RETURN NOT EQ NEQ LT GT LTE GTE ADD L_PAREN R_PAREN COMMA SUB MULT DIV MOD
+%left FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS BEGIN_BODY END_BODY COLON INTEGER ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF ASSIGN IF THEN ENDIF ELSE WHILE BEGINLOOP ENDLOOP DO READ WRITE CONTINUE BREAK RETURN NOT EQ NEQ LT GT LTE GTE ADD L_PAREN R_PAREN COMMA SUB MULT DIV MOD TRUE FALSE IDENT
 
 %start program
 
 %% 
 
   /* write your rules here */
-  program: | Functions 
+  program: Functions                    { printf("program -> Functions\n"); };
 
-  Functions : |Function 
-              | Function Functions
+  Functions : | Function Functions
 
   Function: FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS Declarations END_PARAMS BEGIN_LOCALS Declarations END_LOCALS BEGIN_BODY Statements END_BODY
 
