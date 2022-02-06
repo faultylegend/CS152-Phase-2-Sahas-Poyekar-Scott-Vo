@@ -1,92 +1,104 @@
     /* cs152-miniL phase2 */
 %{
+#include "miniL-parser.h"
 #include <stdio.h>
 #include <stdlib.h>  
 void yyerror(const char *msg);
-FILE* yyin;
 
-int yylex();
-void yyerrror(const char *s);
+extern int yylex();
+extern int num_lines;
+
 %}
 
 
 
 %union{
   /* put your types here */
+  int num_val;
+  char* id_val;
 }
 
 %define parse.error verbose
 %locations
 
 /* %start program */
-%left FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS BEGIN_BODY END_BODY COLON INTEGER ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF ASSIGN IF THEN ENDIF ELSE WHILE BEGINLOOP ENDLOOP DO READ WRITE CONTINUE BREAK RETURN NOT EQ NEQ LT GT LTE GTE ADD L_PAREN R_PAREN COMMA SUB MULT DIV MOD TRUE FALSE IDENT
-
 %start program
+
+%token FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS BEGIN_BODY END_BODY COLON INTEGER ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF ASSIGN IF THEN ENDIF ELSE WHILE BEGINLOOP ENDLOOP DO READ WRITE CONTINUE BREAK RETURN NOT EQ NEQ LT GT LTE GTE ADD L_PAREN R_PAREN COMMA SUB MULT DIV MOD TRUE FALSE IDENT
+
+%type <i_val> NUMBER
+%type <s_val> IDENT 
+
 
 %% 
 
   /* write your rules here */
-  program: Functions                    { printf("program -> Functions\n"); };
+  program: Functions {printf("program -> functions\n");}
+ 
+  Functions : {printf("Functions -> epsilon\n");}
+        | Function Functions {printf("Functions -> Function Functions\n");}
 
-  Functions : | Function Functions
+  Function: FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS Declarations END_PARAMS BEGIN_LOCALS Declarations END_LOCALS BEGIN_BODY Statements END_BODY {printf("Function -> FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS Declarations END_PARAMS BEGIN_LOCALS Declarations END_LOCALS BEGIN_BODY Statements END_BODY\n");}
 
-  Function: FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS Declarations END_PARAMS BEGIN_LOCALS Declarations END_LOCALS BEGIN_BODY Statements END_BODY
+  Declarations:  {printf("Declarations -> epsilon\n");}
+        | Declaration SEMICOLON Declarations {printf("Declarations -> Declaration SEMICOLON Declarations\n");}
 
-  Declarations: | Declaration SEMICOLON Declarations
-
-  Statements: Statement
-              | Statement SEMICOLON Statements
+  Statements: {printf("Statements -> Epsilon\n");}
+              |Statement {printf("Statements -> Statement\n");}
+              | Statement SEMICOLON Statements {printf("Statements -> Statement SEMICOLON Statements\n");}
             
-  Declaration: IDENTIFIER COLON INTEGER
-              | IDENTIFIER COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF
+  Declaration: IDENTIFIER COLON INTEGER {printf("Declaration -> IDENTIFIER COLON INTEGER\n");}
+              | IDENTIFIER COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF {printf("Declaration -> IDENTIFIER COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF\n");}  
+  Statement: variable ASSIGN Expression {printf("Statement -> variable ASSIGN Expression\n");}
+             | IF Bool_Exp THEN Statements ENDIF {printf("Statement -> IF Bool_Exp THEN Statements ENDIF\n");}
+             | IF Bool_Exp THEN Statements ELSE Statements ENDIF {printf("Statement -> IF Bool_Exp THEN Statements ELSE Statements ENDIF\n");}
+             | WHILE Bool_Exp BEGINLOOP Statements ENDLOOP {printf("Statement -> WHILE Bool_Exp BEGINLOOP Statements ENDLOOP\n");}
+             | DO BEGINLOOP Statements ENDLOOP WHILE Bool_Exp {printf("Statement -> DO BEGINLOOP Statements ENDLOOP WHILE Bool_Exp\n");}
+             | READ variable {printf("Statement -> READ variable\n");}
+             | WRITE variable {printf("Statement -> WRITE variable\n");}
+             | CONTINUE {printf("Statement -> CONTINUE\n");}
+             | BREAK {printf("Statement -> BREAK\n");}
+             | RETURN Expression {printf("Statement -> RETURN Expression\n");}
   
-  Statement: variable ASSIGN Expression
-             | IF Bool_Exp THEN Statements ENDIF
-             | IF Bool_Exp THEN Statements ELSE Statements ENDIF
-             | WHILE Bool_Exp BEGINLOOP Statements ENDLOOP
-             | DO BEGINLOOP Statements ENDLOOP WHILE Bool_Exp
-             | READ variable
-             | WRITE variable
-             | CONTINUE
-             | BREAK
-             | RETURN Expression
+  Bool_Exp: Nots Expression Comp Expression {printf("Bool_Exp -> Nots Expression Comp Expression\n");}
+
+  Nots:  {printf("Nots -> epsilon\n");}
+        | NOT Nots {printf("Nots -> NOT Nots\n");}
+
+  Comp: EQ {printf("Comp -> EQ\n");}
+        | NEQ {printf("Comp -> NEQ\n");}
+        | LT {printf("Comp -> LT\n");}
+        | GT {printf("Comp -> GT\n");}
+        | LTE {printf("Comp -> LTE\n");}
+        | GTE {printf("Comp -> GTE\n");}
   
-  Bool_Exp: Nots Expression Comp Expression
-
-  Nots: | NOT Nots
-
-  Comp: EQ
-        | NEQ
-        | LT
-        | GT
-        | LTE
-        | GTE
+  Expression: Mult_Expr {printf("Expression -> Mult_Expr\n");}
+              | Mult_Expr ADD Mult_Expr {printf("Expression -> Mult_Expr ADD Mult_Expr\n");}
+              | Mult_Expr SUB Mult_Expr {printf("Expression -> Mult_Expr SUB Mult_Expr\n");}
   
-  Expression: Mult_Expr
-              | Mult_Expr ADD Mult_Expr
-              | Mult_Expr SUB Mult_Expr
-  
-  Mult_Expr: Term
-             | Term MULT Term
-             | Term DIV Term
-             | Term MOD Term
+  Mult_Expr: Term {printf("Mult_Expr -> Term\n");}
+             | Term MULT Term {printf("Mult_Expr -> Term MULT Term\n");}
+             | Term DIV Term {printf("Mult_Expr -> Term DIV Term\n");}
+             | Term MOD Term {printf("Mult_Expr -> Term MOD Term\n");}
 
-  Term: variable
-        | NUMBER
-        | L_PAREN Expression R_PAREN
-        | IDENTIFIER L_PAREN Expression R_PAREN
+  Term: variable {printf("Term -> variable\n");}
+        | NUMBER {printf("Term -> NUMBER\n");}
+        | L_PAREN Expression R_PAREN {printf("Term -> L_PAREN Expression R_PAREN\n");}
+        | IDENTIFIER L_PAREN Expression R_PAREN {printf("Term -> IDENTIFIER L_PAREN Expression R_PAREN\n");}
 
-  Expressions: Expression | Expression COMMA Expressions
+  Expressions: Expression {printf("Expressions -> Expression\n");}
+              | Expression COMMA Expressions {printf("Expressions -> Expression COMMA Expressions\n");}
 
-  variable: IDENTIFIER
-            | IDENTIFIER L_SQUARE_BRACKET Expression R_SQUARE_BRACKET
+  variable: IDENTIFIER {printf("variable -> IDENTIFIER\n");}
+            | IDENTIFIER L_SQUARE_BRACKET Expression R_SQUARE_BRACKET {printf("variable -> IDENTIFIER L_SQUARE_BRACKET Expression R_SQUARE_BRACKET\n");}
 %% 
 
-/*int main(int argc, char **argv) {
+int main(int argc, char **argv) {
    yyparse();
    return 0;
-}*/
+}
 
 void yyerror(const char *msg) {
     /* implement your error handling */
+    printf("Cock and Balls\n");
 }

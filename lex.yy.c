@@ -1109,7 +1109,7 @@ YY_RULE_SETUP
 case 50:
 YY_RULE_SETUP
 #line 88 "miniL.lex"
-{col += yyleng; return IDENT;} 
+{col += yyleng; return IDENTIFIER;} 
 	YY_BREAK
 case 51:
 YY_RULE_SETUP

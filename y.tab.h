@@ -107,8 +107,10 @@ union YYSTYPE
 #line 14 "miniL.y"
 
   /* put your types here */
+  int num_val;
+  char* id_val;
 
-#line 112 "y.tab.h"
+#line 114 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -3,6 +3,7 @@
 %{   
    /* write your C code here for definitions of variables and including headers */
    #include "y.tab.h"
+   #include "miniL-parser.h"
    int line = 1;
    int col = 1;
 %}
@@ -84,7 +85,7 @@ COMMENT {.}*
                         exit(1);
                      }
 
-{IDENTIFIER} {col += yyleng; return IDENT;} 
+{IDENTIFIER} {col += yyleng; return IDENTIFIER;} 
 {DIGIT}+     {col += yyleng; return NUMBER;} 
 
 
@@ -99,9 +100,9 @@ COMMENT {.}*
 
 %%
 	/* C functions used in lexer */
-
+/*
 int main(int argc, char ** argv)
 {
 
    yylex();
-}
+} */
