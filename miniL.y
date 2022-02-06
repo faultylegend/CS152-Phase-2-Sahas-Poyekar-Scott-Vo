@@ -24,10 +24,10 @@ extern int num_lines;
 /* %start program */
 %start program
 
-%token FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS BEGIN_BODY END_BODY COLON INTEGER ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF ASSIGN IF THEN ENDIF ELSE WHILE BEGINLOOP ENDLOOP DO READ WRITE CONTINUE BREAK RETURN NOT EQ NEQ LT GT LTE GTE ADD L_PAREN R_PAREN COMMA SUB MULT DIV MOD TRUE FALSE IDENT
+%token FUNCTION IDENTIFIER SEMICOLON BEGIN_PARAMS END_PARAMS BEGIN_LOCALS END_LOCALS BEGIN_BODY END_BODY COLON INTEGER ARRAY L_SQUARE_BRACKET R_SQUARE_BRACKET OF ASSIGN IF THEN ENDIF ELSE WHILE BEGINLOOP ENDLOOP DO READ WRITE CONTINUE BREAK RETURN NOT EQ NEQ LT GT LTE GTE ADD L_PAREN R_PAREN COMMA SUB MULT DIV MOD TRUE FALSE IDENT NUMBER
 
-%type <i_val> NUMBER
-%type <s_val> IDENT 
+%type<num_val> NUMBER
+%type<id_val> IDENT
 
 
 %% 
@@ -47,8 +47,13 @@ extern int num_lines;
               |Statement {printf("Statements -> Statement\n");}
               | Statement SEMICOLON Statements {printf("Statements -> Statement SEMICOLON Statements\n");}
             
-  Declaration: IDENTIFIER COLON INTEGER {printf("Declaration -> IDENTIFIER COLON INTEGER\n");}
-              | IDENTIFIER COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF {printf("Declaration -> IDENTIFIER COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF\n");}  
+  Declaration: Identifiers COLON INTEGER {printf("Declaration -> Identifiers COLON INTEGER\n");}
+              | Identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF {printf("Declaration -> IDENTIFIER COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF\n");}  
+  
+  Identifiers: Identifier {printf("Identifiers -> Identifier\n");}
+
+  Identifier: IDENTIFIER {printf("Identifier -> IDENT %s\n", yylval.id_val);}
+  
   Statement: variable ASSIGN Expression {printf("Statement -> variable ASSIGN Expression\n");}
              | IF Bool_Exp THEN Statements ENDIF {printf("Statement -> IF Bool_Exp THEN Statements ENDIF\n");}
              | IF Bool_Exp THEN Statements ELSE Statements ENDIF {printf("Statement -> IF Bool_Exp THEN Statements ELSE Statements ENDIF\n");}
@@ -100,5 +105,5 @@ int main(int argc, char **argv) {
 
 void yyerror(const char *msg) {
     /* implement your error handling */
-    printf("Cock and Balls\n");
+    printf("error\n");
 }
