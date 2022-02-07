@@ -67,7 +67,7 @@ COMMENT {.}*
 "("	{col += yyleng; return L_PAREN;} 
 ")"	{col += yyleng; return R_PAREN;} 
 "["	{col += yyleng; return L_SQUARE_BRACKET;} 
-"]"	{col += yyleng; printf("fdlskjfsd"); return R_SQUARE_BRACKET;} 
+"]"	{col += yyleng; return R_SQUARE_BRACKET;} 
 ":="	{col += yyleng; return ASSIGN;} 
 
 ({DIGIT}|{UNDER}){IDENTIFIER} {

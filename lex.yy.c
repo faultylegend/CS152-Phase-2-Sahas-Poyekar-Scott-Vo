@@ -1076,7 +1076,7 @@ YY_RULE_SETUP
 case 45:
 YY_RULE_SETUP
 #line 71 "miniL.lex"
-{col += yyleng; printf("fdlskjfsd"); return R_SQUARE_BRACKET;} 
+{col += yyleng; return R_SQUARE_BRACKET;} 
 	YY_BREAK
 case 46:
 YY_RULE_SETUP

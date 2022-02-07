@@ -6,7 +6,8 @@
 void yyerror(const char *msg);
 
 extern int yylex();
-extern int num_lines;
+extern int line;
+extern int col;
 
 %}
 
@@ -106,5 +107,6 @@ int main(int argc, char **argv) {
 
 void yyerror(const char *msg) {
     /* implement your error handling */
-    printf("%s \n", msg);
+    printf("%s at line: %i, col: %i \n", msg, line - 1, col);
+    /* printf("%i %i\n", line - 1, col); */
 }
