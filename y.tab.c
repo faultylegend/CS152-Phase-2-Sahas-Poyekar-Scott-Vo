@@ -2071,6 +2071,5 @@ int main(int argc, char **argv) {
 
 void yyerror(const char *msg) {
     /* implement your error handling */
-    printf("%i \n", yylval.line_val);
     printf("%s \n", msg);
 }
