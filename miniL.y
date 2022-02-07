@@ -16,6 +16,8 @@ extern int num_lines;
   /* put your types here */
   int num_val;
   char* id_val;
+  int line_val;
+  int col_val;
 }
 
 %define parse.error verbose
@@ -44,7 +46,6 @@ extern int num_lines;
         | Declaration SEMICOLON Declarations {printf("Declarations -> Declaration SEMICOLON Declarations\n");}
 
   Statements: {printf("Statements -> Epsilon\n");}
-              |Statement {printf("Statements -> Statement\n");}
               | Statement SEMICOLON Statements {printf("Statements -> Statement SEMICOLON Statements\n");}
             
   Declaration: Identifiers COLON INTEGER {printf("Declaration -> Identifiers COLON INTEGER\n");}
@@ -65,7 +66,7 @@ extern int num_lines;
              | BREAK {printf("Statement -> BREAK\n");}
              | RETURN Expression {printf("Statement -> RETURN Expression\n");}
   
-  Bool_Exp: Nots Expression Comp Expression {printf("Bool_Exp -> Nots Expression Comp Expression\n");}
+  Bool_Exp: {printf("boolexp flag\n");} Nots Expression Comp Expression {printf("Bool_Exp -> Nots Expression Comp Expression\n");}
 
   Nots:  {printf("Nots -> epsilon\n");}
         | NOT Nots {printf("Nots -> NOT Nots\n");}
@@ -89,7 +90,7 @@ extern int num_lines;
   Term: variable {printf("Term -> variable\n");}
         | NUMBER {printf("Term -> NUMBER\n");}
         | L_PAREN Expression R_PAREN {printf("Term -> L_PAREN Expression R_PAREN\n");}
-        | IDENTIFIER L_PAREN Expression R_PAREN {printf("Term -> IDENTIFIER L_PAREN Expression R_PAREN\n");}
+        | IDENTIFIER L_PAREN Expressions R_PAREN {printf("Term -> IDENTIFIER L_PAREN Expressions R_PAREN\n");}
 
   Expressions: Expression {printf("Expressions -> Expression\n");}
               | Expression COMMA Expressions {printf("Expressions -> Expression COMMA Expressions\n");}
@@ -105,5 +106,5 @@ int main(int argc, char **argv) {
 
 void yyerror(const char *msg) {
     /* implement your error handling */
-    printf("error\n");
+    printf("%s \n", msg);
 }

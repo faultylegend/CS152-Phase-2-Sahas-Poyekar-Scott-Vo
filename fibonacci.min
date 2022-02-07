@@ -21,3 +21,13 @@ beginbody
 	fib_n := fibonacci(n);
 	write fib_n;
 endbody
+
+1. function main;
+2. beginparams
+3. endparams
+4. beginlocals
+5. a : integer;
+6. endlocals
+7. beginbody
+8. a = 1 + 2 * 3;
+9. endbody

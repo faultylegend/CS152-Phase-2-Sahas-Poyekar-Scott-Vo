@@ -17,32 +17,32 @@ COMMENT {.}*
 
 %%
    /* specific lexer rules in regex */
-"function"	   {col += yyleng; return FUNCTION;}
-"beginparams"	{col += yyleng; return BEGIN_PARAMS;} 
-"endparams"	   {col += yyleng; return END_PARAMS;}
-"beginlocals"	{col += yyleng; return BEGIN_LOCALS;}
-"endlocals"	   {col += yyleng; return END_LOCALS;}
-"beginbody"	   {col += yyleng; return BEGIN_BODY;}
-"endbody"	   {col += yyleng; return END_BODY;}
-"integer"	   {col += yyleng; return INTEGER;}
-"array"	      {col += yyleng; return ARRAY;}
-"of"	         {col += yyleng; return OF;}
-"if"	         {col += yyleng; return IF;}
-"then"	      {col += yyleng; return THEN;}
-"endif"	      {col += yyleng; return ENDIF;}
-"else"	      {col += yyleng; return ELSE;}
-"while"        {col += yyleng; return WHILE;}
-"do"	         {col += yyleng; return DO;}
-"beginloop"	   {col += yyleng; return BEGINLOOP;}
-"endloop"	   {col += yyleng; return ENDLOOP;}
-"continue"	   {col += yyleng; return CONTINUE;}
-"break"	      {col += yyleng; return BREAK;}
-"read"	      {col += yyleng; return READ;}
-"write"	      {col += yyleng; return WRITE;} 
-"not"	         {col += yyleng; return NOT;}
-"true"	      {col += yyleng; return TRUE;}
-"false"	      {col += yyleng; return FALSE;} 
-"return"	      {col += yyleng; return RETURN;} 
+"function"	   {col += yyleng; yylval.line_val = line; yylval.col_val = col; return FUNCTION;}
+"beginparams"	{col += yyleng; yylval.line_val = line; yylval.col_val = col; return BEGIN_PARAMS;} 
+"endparams"	   {col += yyleng; yylval.line_val = line; yylval.col_val = col; return END_PARAMS;}
+"beginlocals"	{col += yyleng; yylval.line_val = line; yylval.col_val = col; return BEGIN_LOCALS;}
+"endlocals"	   {col += yyleng; yylval.line_val = line; yylval.col_val = col; return END_LOCALS;}
+"beginbody"	   {col += yyleng; yylval.line_val = line; yylval.col_val = col; return BEGIN_BODY;}
+"endbody"	   {col += yyleng; yylval.line_val = line; yylval.col_val = col; return END_BODY;}
+"integer"	   {col += yyleng; yylval.line_val = line; yylval.col_val = col; return INTEGER;}
+"array"	      {col += yyleng; yylval.line_val = line; yylval.col_val = col; return ARRAY;}
+"of"	         {col += yyleng; yylval.line_val = line; yylval.col_val = col; return OF;}
+"if"	         {col += yyleng; yylval.line_val = line; yylval.col_val = col; return IF;}
+"then"	      {col += yyleng; yylval.line_val = line; yylval.col_val = col; return THEN;}
+"endif"	      {col += yyleng; yylval.line_val = line; yylval.col_val = col; return ENDIF;}
+"else"	      {col += yyleng; yylval.line_val = line; yylval.col_val = col; return ELSE;}
+"while"        {col += yyleng; yylval.line_val = line; yylval.col_val = col; return WHILE;}
+"do"	         {col += yyleng; yylval.line_val = line; yylval.col_val = col; return DO;}
+"beginloop"	   {col += yyleng; yylval.line_val = line; yylval.col_val = col; return BEGINLOOP;}
+"endloop"	   {col += yyleng; yylval.line_val = line; yylval.col_val = col; return ENDLOOP;}
+"continue"	   {col += yyleng; yylval.line_val = line; yylval.col_val = col; return CONTINUE;}
+"break"	      {col += yyleng; yylval.line_val = line; yylval.col_val = col; return BREAK;}
+"read"	      {col += yyleng; yylval.line_val = line; yylval.col_val = col; return READ;}
+"write"	      {col += yyleng; yylval.line_val = line; yylval.col_val = col; return WRITE;} 
+"not"	         {col += yyleng; yylval.line_val = line; yylval.col_val = col; return NOT;}
+"true"	      {col += yyleng; yylval.line_val = line; yylval.col_val = col; return TRUE;}
+"false"	      {col += yyleng; yylval.line_val = line; yylval.col_val = col; return FALSE;} 
+"return"	      {col += yyleng; yylval.line_val = line; yylval.col_val = col; return RETURN;} 
 
 
 "-"	{col += yyleng; return SUB;} 
@@ -67,7 +67,7 @@ COMMENT {.}*
 "("	{col += yyleng; return L_PAREN;} 
 ")"	{col += yyleng; return R_PAREN;} 
 "["	{col += yyleng; return L_SQUARE_BRACKET;} 
-"]"	{col += yyleng; return R_SQUARE_BRACKET;} 
+"]"	{col += yyleng; printf("fdlskjfsd"); return R_SQUARE_BRACKET;} 
 ":="	{col += yyleng; return ASSIGN;} 
 
 ({DIGIT}|{UNDER}){IDENTIFIER} {
@@ -91,8 +91,7 @@ COMMENT {.}*
 
 " "   col++;
 \t    col += 4;
-\n    line++; col = 1; 
-
+\n    {line++; col = 1; }
 [^ ^\n^\t]     {
                printf("\nERROR at line %d, column %d: unrecognized symbol \"%s\"\n", line, col, yytext);
                exit(1);

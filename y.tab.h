@@ -62,41 +62,41 @@ extern int yydebug;
     INTEGER = 268,
     ARRAY = 269,
     L_SQUARE_BRACKET = 270,
-    NUMBER = 271,
-    R_SQUARE_BRACKET = 272,
-    OF = 273,
-    ASSIGN = 274,
-    IF = 275,
-    THEN = 276,
-    ENDIF = 277,
-    ELSE = 278,
-    WHILE = 279,
-    BEGINLOOP = 280,
-    ENDLOOP = 281,
-    DO = 282,
-    READ = 283,
-    WRITE = 284,
-    CONTINUE = 285,
-    BREAK = 286,
-    RETURN = 287,
-    NOT = 288,
-    EQ = 289,
-    NEQ = 290,
-    LT = 291,
-    GT = 292,
-    LTE = 293,
-    GTE = 294,
-    ADD = 295,
-    L_PAREN = 296,
-    R_PAREN = 297,
-    COMMA = 298,
-    SUB = 299,
-    MULT = 300,
-    DIV = 301,
-    MOD = 302,
-    TRUE = 303,
-    FALSE = 304,
-    IDENT = 305
+    R_SQUARE_BRACKET = 271,
+    OF = 272,
+    ASSIGN = 273,
+    IF = 274,
+    THEN = 275,
+    ENDIF = 276,
+    ELSE = 277,
+    WHILE = 278,
+    BEGINLOOP = 279,
+    ENDLOOP = 280,
+    DO = 281,
+    READ = 282,
+    WRITE = 283,
+    CONTINUE = 284,
+    BREAK = 285,
+    RETURN = 286,
+    NOT = 287,
+    EQ = 288,
+    NEQ = 289,
+    LT = 290,
+    GT = 291,
+    LTE = 292,
+    GTE = 293,
+    ADD = 294,
+    L_PAREN = 295,
+    R_PAREN = 296,
+    COMMA = 297,
+    SUB = 298,
+    MULT = 299,
+    DIV = 300,
+    MOD = 301,
+    TRUE = 302,
+    FALSE = 303,
+    IDENT = 304,
+    NUMBER = 305
   };
 #endif
 
@@ -104,13 +104,15 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 14 "miniL.y"
+#line 15 "miniL.y"
 
   /* put your types here */
   int num_val;
   char* id_val;
+  int line_val;
+  int col_val;
 
-#line 114 "y.tab.h"
+#line 116 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
