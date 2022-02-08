@@ -50,7 +50,7 @@ extern int col;
               | Statement SEMICOLON Statements {printf("Statements -> Statement SEMICOLON Statements\n");}
             
   Declaration: Identifiers COLON INTEGER {printf("Declaration -> Identifiers COLON INTEGER\n");}
-              | Identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER{printf("Declaration -> IDENTIFIER COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF\n");}  
+              | Identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER{printf("Declaration -> IDENTIFIER COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER\n");}  
   
   Identifiers: Identifier {printf("Identifiers -> Identifier\n");}
 
